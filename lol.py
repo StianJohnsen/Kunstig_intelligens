@@ -1,5 +1,4 @@
 
-from xml.etree.ElementPath import get_parent_map
 
 
 lst_name = [
@@ -63,9 +62,9 @@ sorted_dict = list(sorted(start_dict.items(),key=lambda item:item[1]))
 class heap:
     def __init__(self):
         self.lst = []
-        self.top_index = 0
-        self.index = 0
-        self.bottom_index = len(self.lst)-1
+        self.size = 0
+        self.length = len(self.lst) - 1
+
 
     def get_left_child_index(self,parent_index):
         return 2*parent_index+1
@@ -99,25 +98,19 @@ class heap:
         
     def add(self,item):
         self.lst.append(item)
-        self.index += 1
+        self.size += 1
         self.heapify_up()
 
-    def pop_lst(self):
-        self.swap(self.top_index,self.bottom_index)
-        self.bottom_index -= 1
-        self.heapify_down()
-        '''Vi bytter plass på index 0 og index størst
-        Endrer størrelsen på listen til len -1'''
+
 
     def heapify_up(self):
-        self.index = self.bottom_index
-        print(self.get_parent(self.index),self.lst[self.index])
+        self.index = self.size - 1
         while(self.has_parent(self.index) and self.get_parent(self.index) < self.lst[self.index]):
             self.swap(self.get_parent_index(self.index),self.index)
             self.index = self.get_parent_index(self.index)
 
     def heapify_down(self):
-        self.index = self.top_index
+        self.index = 0
         while(self.has_left_child(self.index)):
             self.bigger_child_index = self.get_right_child_index(self.index)
             if(self.has_left_child(self.index) and self.get_left_child(self.index) > self.get_right_child(self.index)):
@@ -132,9 +125,39 @@ class heap:
 
 
 
-test_heap = heap()
+class heap_sort(heap):
+    def __init__(self,heap_lst):
+        super().__init__()
+        self.heap_lst = heap_lst
 
-for i in (10,15,20,17,8):
-    test_heap.add(i)
+        #print(self.lst)
 
+
+    def build_max_heap(self):
+        for i in self.heap_lst:
+            self.add(i)
+
+
+    def pop_lst(self):
+        self.first_index = 0
+        self.last_index = self.length
+        while self.last_index > 0:
+            self.swap(self.first_index,self.last_index)
+            self.last_index -= 1
+            self.heapify_down()
+
+
+
+
+
+
+test_heap = heap_sort([2,1,0,100,4])
+test_heap.build_max_heap()
 print(test_heap.return_lst())
+test_heap.pop_lst()
+print(test_heap.return_lst())
+
+
+
+
+
