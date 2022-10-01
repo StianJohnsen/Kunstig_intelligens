@@ -137,13 +137,23 @@ class heap_sort(heap):
         for i in self.heap_lst:
             self.add(i)
 
+    def rebuild_max_heap(self):
+        #print(self.last_index)
+        print(self.heap_lst,self.heap_lst[0:self.last_index])
+        #for i in self.heap_lst[0:self.last_index]:
+        #    print(i)
+        #for i in range(self.last_index):
+        #    print (self.lst[self.first_index:self.last_index])
+
 
     def pop_lst(self):
         self.first_index = 0
-        self.last_index = self.length
+        self.last_index = self.size-1
         while self.last_index > 0:
+            #print(self.last_index,self.lst)
             self.swap(self.first_index,self.last_index)
             self.last_index -= 1
+            self.rebuild_max_heap()
             self.heapify_down()
 
 
@@ -153,9 +163,9 @@ class heap_sort(heap):
 
 test_heap = heap_sort([2,1,0,100,4])
 test_heap.build_max_heap()
-print(test_heap.return_lst())
+#print(test_heap.return_lst())
 test_heap.pop_lst()
-print(test_heap.return_lst())
+#print(test_heap.return_lst())
 
 
 
