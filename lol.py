@@ -1,6 +1,3 @@
-
-
-
 lst_name = [
     [],
     [],
@@ -129,6 +126,7 @@ class heap_sort(heap):
     def __init__(self,heap_lst):
         super().__init__()
         self.heap_lst = heap_lst
+        self.sorted_lst = []
 
         #print(self.lst)
 
@@ -138,23 +136,58 @@ class heap_sort(heap):
             self.add(i)
 
     def rebuild_max_heap(self):
-        #print(self.last_index)
-        print(self.heap_lst,self.heap_lst[0:self.last_index])
-        #for i in self.heap_lst[0:self.last_index]:
-        #    print(i)
-        #for i in range(self.last_index):
-        #    print (self.lst[self.first_index:self.last_index])
+        pass
 
+    def do_heap_sort(self):
+        #sorted_lst = []
+        #self.first_index = 0
+        #self.last_index = len(self.lst)-1
+        #self.swap(self.first_index,self.last_index)
+        #values_sorted = self.lst[self.first_index:self.last_index]
+        #sorted_lst.append(self.lst[-1])
+        #new_heap = heap_sort(values_sorted)
+        #new_heap.build_max_heap()
+        #while self.last_index > 1:
+        #    self.do_heap_sort()
+        #self.lst = values_sorted
+        #self.build_max_heap()
+        #return sorted_lst
+        pass
 
     def pop_lst(self):
         self.first_index = 0
         self.last_index = self.size-1
-        while self.last_index > 0:
-            #print(self.last_index,self.lst)
+        
+        while self.last_index >= 0:
             self.swap(self.first_index,self.last_index)
-            self.last_index -= 1
-            self.rebuild_max_heap()
-            self.heapify_down()
+            self.sorted_lst.append(self.lst[-1])
+            self.lst = self.lst[:-1]
+            self.size-=1
+            values_sorted = self.lst[self.first_index:self.last_index]
+            self.last_index-=1
+            self.lst = values_sorted
+            self.size = len(values_sorted)
+            print(self.size,self.lst)
+            self.build_max_heap()
+
+            #hold_value_heap = heap_sort(values_sorted)
+            #hold_value_heap.build_max_heap()
+            
+
+
+
+
+        #    #print(self.last_index,self.lst)
+        #    #print(self.first_index,self.last_index)
+        #    self.swap(self.first_index,self.last_index)
+        #    self.sorted_lst.append(self.lst[-1])
+        #    self.last_index -= 1
+        #    print(self.first_index,self.last_index)
+        
+    def return_sorted_lst(self):
+        return self.sorted_lst
+            
+            
 
 
 
@@ -163,9 +196,10 @@ class heap_sort(heap):
 
 test_heap = heap_sort([2,1,0,100,4])
 test_heap.build_max_heap()
-#print(test_heap.return_lst())
 test_heap.pop_lst()
-#print(test_heap.return_lst())
+print(test_heap.return_sorted_lst())
+
+
 
 
 
