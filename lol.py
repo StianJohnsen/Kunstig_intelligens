@@ -111,7 +111,8 @@ class heap:
 
     def heapify_up(self):
         self.index = self.bottom_index
-        print(self.get_parent(self.index),self.lst[self.index])
+        #print(self.get_parent(self.index),self.lst[self.index])
+        print(self.index,self.get_parent_index(self.index))
         while(self.has_parent(self.index) and self.get_parent(self.index) < self.lst[self.index]):
             self.swap(self.get_parent_index(self.index),self.index)
             self.index = self.get_parent_index(self.index)
