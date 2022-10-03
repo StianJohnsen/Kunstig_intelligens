@@ -40,8 +40,6 @@ class heap:
         self.size += 1
         self.heapify_up()
 
-
-
     def heapify_up(self):
         self.index = self.size - 1
         while(self.has_parent(self.index) and self.get_parent(self.index) < self.lst[self.index]):
@@ -75,21 +73,20 @@ class heap_sort(heap):
             self.add(i)
     
     def reheapify(self,input_lst):
-        for i in input_lst:
-            self.add(i)
-        
+        new_heap = heap_sort(input_lst)
+        new_heap.build_max_heap()
+        self.lst = new_heap.return_lst()
         
 
-    def save_in_new_lst(self):
-        self.swap(self.first_index,self.length)
-        self.sorted_lst.append(self.lst[-1])
-        self.lst = self.lst[:-1]
-        self.size -= 1
-    
-    
+    def do_heap_sort(self):
+        while len(self.lst) > 0:
+            self.swap(self.first_index,self.length)
+            self.sorted_lst.append(self.lst[-1])
+            self.lst = self.lst[:-1]
+            self.reheapify(self.lst)
 
     def return_sorted_lst(self):
-        return self.sorted_lst
+        return self.sorted_lst[::-1]
     
 
         
@@ -98,9 +95,9 @@ class heap_sort(heap):
 
 
 
-heisann_heap = heap_sort([2,1,7,10,12])
+heisann_heap = heap_sort([0,2,1,7,-1,10,12])
 heisann_heap.build_max_heap()
-print(heisann_heap.return_lst())
-heisann_heap.save_in_new_lst()
-print(heisann_heap.return_lst())
+#print(heisann_heap.return_lst())
+heisann_heap.do_heap_sort()
+#print(heisann_heap.return_lst())
 print(heisann_heap.return_sorted_lst())
