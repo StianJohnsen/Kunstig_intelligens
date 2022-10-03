@@ -95,7 +95,7 @@ class heap_sort(heap):
 
 
 
-heisann_heap = heap_sort([0,2,1,7,-1,10,12])
+heisann_heap = heap_sort([-4,0,2,1,7,-1,10,12])
 heisann_heap.build_max_heap()
 #print(heisann_heap.return_lst())
 heisann_heap.do_heap_sort()
