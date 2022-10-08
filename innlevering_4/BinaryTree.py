@@ -24,7 +24,7 @@ class BinaryTree:
     def findMax(self):
         return self.findRightMost(self._root)
     
-    def find(self, key, treenode = None):      
+    def find(self, key, treenode = None):
         if treenode == None:
             treenode = self._root
         if treenode == None:
@@ -39,6 +39,7 @@ class BinaryTree:
             return treenode
         else:
             raise KeyError("Key not found")
+
        
     def _getnodes(self, current = None, treenode = None, value = None):
         if current != None and treenode != None:
