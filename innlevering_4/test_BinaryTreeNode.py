@@ -9,6 +9,8 @@ test_person_1 = Person('KRISTIANSEN','MORTEN KRISTIAN','LEINANYTTA 36','7224','M
 
 test_person_2 = Person('OLDERVIK','SHARI LILL','KRÆKA 84','5948','FEDJE')
 
+test_person_lst = [test_person_1,test_person_2]
+
 empty_test_person = Person('JOHNSEN', 'STIAN', 'HELLVEIEN 14', '666666', 'HELL')
 
 test_person_1_BinaryTreeNode = BinaryTreeNode(test_person_1)
@@ -33,8 +35,8 @@ def test_set_and_get_right():
     test_person_2_BinaryTreeNode.right = test_person_1_BinaryTreeNode.value
     assert test_person_2_BinaryTreeNode.right is not None
 
-#def test_str():
-    #assert test_person_1_BinaryTreeNode.__str__() == "Person(etternavn='KRISTIANSEN', fornavn='MORTEN KRISTIAN', adresse='LEINANYTTA 36', postnummer='7224', poststed='MELHUS')"
+def test_str():
+    assert test_person_1_BinaryTreeNode.__str__() == test_person_lst[0]
 def test_has_right():
     test_person_2_BinaryTreeNode.right = test_person_1_BinaryTreeNode.value
     assert test_person_2_BinaryTreeNode.hasRight() == True
@@ -44,6 +46,17 @@ def test_has_left():
     assert test_person_2_BinaryTreeNode.hasLeft() == True
     assert test_person_1_BinaryTreeNode.hasLeft() == False
 
+def test_prefix_order():
+    test_person_1_BinaryTreeNode.prefixOrder()
+
+def test_infix_order():
+    test_person_1_BinaryTreeNode.infixOrder()
+
+def test_postfix_order():
+    test_person_1_BinaryTreeNode.postfixOrder()
+
+def test_level_order():
+    test_person_1_BinaryTreeNode.levelOrder()
 def test__eq__():
     test_person_1_same = Person('KRISTIANSEN', 'MORTEN KRISTIAN', 'LEINANYTTA 36', '7224', 'MELHUS')
     test_person_1_same_BinaryTreeNode = BinaryTreeNode(test_person_1_same)
@@ -78,3 +91,5 @@ def test__ge__():
     assert test_person_1_BinaryTreeNode.__ge__(None) == False
     assert test_person_1_BinaryTreeNode.__ge__(test_person_2_BinaryTreeNode) == False
     assert empty_test_person_BinaryTreeNode.__ge__(None) == False
+
+
