@@ -160,7 +160,7 @@ if __name__ == "__main__":
         missile = Projectile(background,y_target_bottom)
         if kalman_implemented:
             k_miss = Projectile(background,y_target_bottom,kalman=Kalman()) 
-
+        
         # Initialize array indicating position
         noisy_draw = np.zeros((background_width,20))
 
@@ -216,7 +216,7 @@ if __name__ == "__main__":
             oob = missile.rect.y < 20
             if oob or coll or (kalman_implemented and k_coll): 
                 trial = False
-
+                
             # Update the display surface to the screen
             pg.display.flip()
 
