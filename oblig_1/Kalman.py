@@ -3,20 +3,14 @@ class Kalman():
         # Variables used for estimating position
         self.value_lst = []
 
-        #self.alpha = 0.0365 # Prøv å eksperimetere videre
-        #self.beta = 0.00249 # Prøv å eksperimetere videre
-        #self.gamma = 0.00000632 # Prøv å eksperimetere videre
-
-        self.damping = 0.995        
-        self.alpha = 1-self.damping**3
-        self.beta = 1.5*(1-self.damping)**2 *(1+self.damping)
-        self.gamma = (1-self.damping)**3
-
+        self.alpha = 0.0149
+        self.beta = 0.0000748
+        self.gamma = 0.000000125
         self.delta_time = 1
 
-        self.current_estimated_position = 0#200
-        self.current_estimated_velocity = 0#0.4
-        self.current_estimated_acceleration = 0#0.003
+        self.current_estimated_position = 0
+        self.current_estimated_velocity = 0
+        self.current_estimated_acceleration = 0
 
         self.next_estimated_position = self.current_estimated_position + self.current_estimated_velocity * self.delta_time + self.current_estimated_acceleration * 0.5 * self.delta_time ** 2
         self.next_estimated_velocity = self.current_estimated_velocity + self.current_estimated_acceleration * self.delta_time
