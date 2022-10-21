@@ -1,7 +1,6 @@
 class Kalman():
     def __init__(self):
-        # Variables used for estimating position
-        self.value_lst = []
+        # Variables used for estimating position,velocity and acceleration
 
         self.alpha = 0.0149
         self.beta = 0.0000748
@@ -21,7 +20,6 @@ class Kalman():
         
         
     def estimate_current_position_and_velocity(self, zi):
-        self.value_lst.append(zi)
         '''Calculating current estimate using State Update Equations'''
         self.current_estimated_position = self.next_estimated_position + self.alpha*(zi-self.next_estimated_position)
         self.current_estimated_velocity = self.next_estimated_velocity + self.beta * ((zi-self.next_estimated_position)/self.delta_time)
