@@ -31,4 +31,5 @@ class Kalman():
         self.next_estimated_velocity = self.current_estimated_velocity+self.current_estimated_acceleration*self.delta_time
         self.next_estimated_acceleration = self.current_estimated_acceleration
 
-        return self.current_estimated_position,self.current_estimated_velocity   
+        return self.current_estimated_position
+        
