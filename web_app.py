@@ -7,4 +7,5 @@ def home():
     return 'hello'
 
 
-app.run()
+if __name__ == "main":
+    app.run()
