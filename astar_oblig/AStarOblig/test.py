@@ -235,94 +235,86 @@ class AStar(Graph):
         return self.getPath(startVertexName, targetVertexName) 
 
     def AStarSearch(self, startVertexName = None, targetVertexName = None):
-
-        self.initPygame()
-        
-        
-        start_node = self.vertecies[startVertexName]
-        current_node = start_node
-        start_node.distance = distance = weight = 0
-        end_node = self.vertecies[targetVertexName]
-
-        previous_node = None
-
         
         def calc_h(node):
             distance = abs(node.position()[0]-end_node.position()[0]) + abs(node.position()[1]-end_node.position()[1])
             return distance
 
-        open_list = [start_node]
+        def reconstruct_path(came_from,current):
+            total_path = []
+            while current in list(came_from.items())[0]:
+                current = came_from[current]
+                total_path.append(current)
+            return total_path
         
-        #print(open_list)
-        came_from = {}
+        
+        self.initPygame()
+        
+        open_list = []
+        closed_list = []
 
-        g_score = {}
-        
-        
-        g_score.setdefault('',float('inf'))
-        g_score[start_node] = 0
-        
-        f_score = {}
+        path = []
 
-        f_score.setdefault('',float('inf'))
-        f_score[start_node] = calc_h(start_node)
-        
-        winner_index = 0 
+        start_node = self.vertecies[startVertexName]
+        current_node = start_node
+        end_node = self.vertecies[targetVertexName]
+
+        open_list.append(start_node)
+        winner_index = 0
 
         while len(open_list) > 0:
-            
-            for i in range(len(open_list)):
-                print(open_list,i)
-                if open_list[i] < open_list[winner_index]:
-                    winner_index = i
-            current_node = open_list[winner_index]
             self.pygameState(current_node, self.GREEN)
             self.pygameState(start_node,self.BLUE)
             self.pygameState(end_node,self.RED)
 
-            if not current_node.known:
-                current_node.distance = distance
-                current_node.previous = previous_node
-            
-            current_node.known = True
-
+            for i in range (len(open_list)):
+                if open_list[i].f < open_list[winner_index].f:
+                    winner_index = i
+            current_node = open_list[winner_index]
 
             if current_node == end_node:
-                print ("DONE!")
-                #We're done!
+                temp = current_node
+                path.append(temp)
+                while temp.previous:
+                    path.append(temp.previous)
+                    temp = temp.previous
+
+                print ("we're done")
             
-            for i in range(len(open_list)):
-                if open_list[i] == current_node:
+            for i in range(len(open_list)-1,0,-1):
+                if open_list[i] == end_node:
                     open_list.pop(i)
             
+            closed_list.append(current_node)
+            
             for neighbor in current_node.adjecent:
-                if neighbor.vertex.known:
-                    continue
-                # if not neighbor.vertex.known:
-                #     neighbor.vertex.distance = current_node.distance + neighbor.weight
-                #     neighbor.vertex.previous = current_node
-                #     neighbor.vertex.known = True
-                #     self.pygameState(neighbor.vertex,self.PINK)
-                temp_g = current_node.g + 1
-                
-                if neighbor.vertex not in open_list:
-                    open_list.append(neighbor.vertex)
-                # if temp_g < neighbor.vertex.g:
-                #     came_from[neighbor.vertex] = current_node
-                #     neighbor.vertex.g = temp_g
-                #     neighbor.vertex.f = temp_g + calc_h(neighbor.vertex)
-                #     if neighbor.vertex not in open_list:
-                #         open_list.append(neighbor.vertex)
-                
-                
-                
-                #if temp_g < g_score[neighbor.vertex]:
-                    # came_from[neighbor.vertex] = current_node
-                    # g_score[neighbor.vertex] = temp_g
-                    # f_score[neighbor.vertex] = temp_g + self.heuristics()
-                    # if neighbor.vertex not in open_list:
-                    #     open_list.append(neighbor.vertex)
-        
+                if neighbor.vertex not in closed_list:
+                    temp_g = current_node.g + 1
+                    if neighbor.vertex in open_list:
+                        if temp_g < neighbor.vertex.g:
+                            neighbor.vertex.g = temp_g
+                    else:
+                        neighbor.vertex.g = temp_g 
+                        open_list.append(neighbor.vertex)
+                neighbor.vertex.h = calc_h(neighbor.vertex)
+                neighbor.vertex.f = neighbor.vertex.g + neighbor.vertex.h 
+                neighbor.vertex.previous = current_node
+            
+
+                self.pygameState(neighbor.vertex,self.PINK)
+
+            self.pygameState(current_node,self.LIGHTGREY)
+                    #came_from[neighbor.vertex] = current_node
+                    #neighbor.g = temp_g
+                    #neighbor.f = temp_g + calc_h(neighbor.vertex)
+                    #if neighbor.vertex not in open_list:
+                    #    open_list.append(neighbor.vertex)
+
+
+    
+
+
+
 
 
 
