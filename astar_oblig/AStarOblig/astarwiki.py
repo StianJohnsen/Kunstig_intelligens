@@ -238,18 +238,48 @@ class AStar(Graph):
         self.initPygame()
         start_node = self.vertecies[startVertexName]
         end_node = self.vertecies[targetVertexName]
+        
+        def calc_h(node):
+            distance = abs(node.position()[0]-end_node.position()[0]) + abs(node.position()[1]-end_node.position()[1])
+            
+            return distance
 
-        open_list = [start_node]
-
+        open_list = []
+        open_list.append(start_node)
+        #print(open_list)
         came_from = {}
 
         g_score = {}
+        
+        
+        g_score.setdefault(start_node,float('inf'))
         g_score[start_node] = 0
         f_score = {}
-        f_score[start_node] = start_node.h
+        f_score[start_node] = calc_h(start_node)
+        print(g_score)
+        winner_index = 0 
+
         
-        while len(open_list) > 0:
-            for i in open_list:
+        # while len(open_list) > 0:
+        #     for i in range(len(open_list)):
+        #         if open_list[i] < open_list[winner_index]:
+        #             winner_index = i
+        #     current_node = open_list[winner_index]
+        #     if current_node == end_node:
+        #         print ("DONE!")
+        #         #We're done!
+        #     for i in range(len(open_list)):
+        #         if open_list[i] == current_node:
+        #             open_list.pop(i)
+        #     for neighbor in current_node.adjecent:
+        #         temp_g = g_score[current_node] + 1
+        #         if temp_g < g_score[neighbor.vertex]:
+        #             came_from[neighbor.vertex] = current_node
+        #             g_score[neighbor.vertex] = temp_g
+        #             f_score[neighbor.vertex] = temp_g + self.heuristics()
+        #             if neighbor.vertex not in open_list:
+        #                 open_list.append(neighbor.vertex)
+        
 
 
 
