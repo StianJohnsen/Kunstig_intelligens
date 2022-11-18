@@ -256,68 +256,65 @@ class AStar(Graph):
         path = []
 
         start_node = self.vertecies[startVertexName]
-        current_node = start_node
         end_node = self.vertecies[targetVertexName]
 
         open_list.append(start_node)
         winner_index = 0
-
+        self.pygameState(start_node,self.BLUE)
+        self.pygameState(end_node,self.RED)
+        
         while len(open_list) > 0:
+            current_node = open_list[0]
             self.pygameState(current_node, self.GREEN)
-            self.pygameState(start_node,self.BLUE)
-            self.pygameState(end_node,self.RED)
+            
 
-            for i in range (len(open_list)):
-                if open_list[i].f < open_list[winner_index].f:
-                    winner_index = i
-            current_node = open_list[winner_index]
+            for i in open_list:
+                if i.f < current_node.f:
+                    current_node = i
+
+            
+            
+            
+            for i in open_list:
+                if i == current_node:
+                    current_node.known = True
+                    open_list.remove(i)
 
             if current_node == end_node:
-                temp = current_node
-                path.append(temp)
-                while temp.previous:
-                    path.append(temp.previous)
-                    temp = temp.previous
-
-                print ("we're done")
-            
-            for i in range(len(open_list)-1,0,-1):
-                if open_list[i] == end_node:
-                    open_list.pop(i)
-            
-            closed_list.append(current_node)
+                break
+            #DONE
             
             for neighbor in current_node.adjecent:
-                if neighbor.vertex not in closed_list:
-                    temp_g = current_node.g + 1
-                    if neighbor.vertex in open_list:
-                        if temp_g < neighbor.vertex.g:
-                            neighbor.vertex.g = temp_g
-                    else:
-                        neighbor.vertex.g = temp_g 
-                        open_list.append(neighbor.vertex)
-                neighbor.vertex.h = calc_h(neighbor.vertex)
-                neighbor.vertex.f = neighbor.vertex.g + neighbor.vertex.h 
-                neighbor.vertex.previous = current_node
-            
+                if neighbor.vertex.known:
+                    continue
 
                 self.pygameState(neighbor.vertex,self.PINK)
 
-            self.pygameState(current_node,self.LIGHTGREY)
+                temp_g = current_node.g + 1
+
+                for i in open_list:
+                    if neighbor.vertex.name == i.name and temp_g < neighbor.vertex.g:
+                        neighbor.vertex.g = temp_g
+                
+                #Setting vertex settings
+                
+                neighbor.vertex.h = self.heuristics(neighbor.vertex.name, targetVertexName)
+                neighbor.vertex.f = neighbor.vertex.g + neighbor.vertex.h 
+                neighbor.vertex.previous = current_node
+                neighbor.vertex.known = True
+                open_list.append(neighbor.vertex)
+
+                
+
                     #came_from[neighbor.vertex] = current_node
                     #neighbor.g = temp_g
                     #neighbor.f = temp_g + calc_h(neighbor.vertex)
                     #if neighbor.vertex not in open_list:
                     #    open_list.append(neighbor.vertex)
-
-
-    
-
-
-
-
-
-
+            self.pygameState(current_node,self.LIGHTGREY)
+        for n in self.getPath(startVertexName, targetVertexName):
+            self.pygameState(n,self.DARKGREEN)
+        return self.getPath(startVertexName, targetVertexName) 
 
 astar = AStar(delay = 0, visual = True)
 
