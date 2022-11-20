@@ -264,7 +264,7 @@ class AStar(Graph):
 
                 self.pygameState(neighbor.vertex,self.PINK)
                 
-                neighbor.vertex.g = current_node.g + 1# Should use neighbor.vertex.g instead of 1, if weight is changing
+                neighbor.vertex.g = current_node.g + 1# Should use neighbor.vertex.distance instead of 1, if weight is changing
 
                 neighbor.vertex.h = self.heuristics(neighbor.vertex.name,targetVertexName) # Setting the heuristic value
                 neighbor.vertex.f = neighbor.vertex.g + neighbor.vertex.h # f(n) = g(n) + h(n) equation
@@ -285,10 +285,10 @@ astar = AStar(delay = 0, visual = True)
 #startVertexName, targetVertexName, removed = astar.readLimitations('minigraf_xtras.txt')
 #astar.readFile('astjernegraf.txt')
 #startVertexName, targetVertexName, removed = astar.readLimitations('xtras.txt')
-astar.readFile('biggraph.txt')
-startVertexName, targetVertexName, removed = astar.readLimitations('biggraph_xtras.txt')
-#astar.readFile('AStarObligGraf.txt')
-#startVertexName, targetVertexName, removed = astar.readLimitations('AStarObligGraf_xtras.txt')
+#astar.readFile('biggraph.txt')
+#startVertexName, targetVertexName, removed = astar.readLimitations('biggraph_xtras.txt')
+astar.readFile('AStarObligGraf.txt')
+startVertexName, targetVertexName, removed = astar.readLimitations('AStarObligGraf_xtras.txt')
 
 #astar.Dijkstra(startVertexName,targetVertexName)
 astar.AStarSearch(startVertexName, targetVertexName)
