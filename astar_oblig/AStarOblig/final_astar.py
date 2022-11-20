@@ -281,14 +281,14 @@ class AStar(Graph):
    
 astar = AStar(delay = 0, visual = True)
 
-#astar.readFile('minigraf.txt')
-#startVertexName, targetVertexName, removed = astar.readLimitations('minigraf_xtras.txt')
+astar.readFile('minigraf.txt')
+startVertexName, targetVertexName, removed = astar.readLimitations('minigraf_xtras.txt')
 #astar.readFile('astjernegraf.txt')
 #startVertexName, targetVertexName, removed = astar.readLimitations('xtras.txt')
 #astar.readFile('biggraph.txt')
 #startVertexName, targetVertexName, removed = astar.readLimitations('biggraph_xtras.txt')
-astar.readFile('AStarObligGraf.txt')
-startVertexName, targetVertexName, removed = astar.readLimitations('AStarObligGraf_xtras.txt')
+#astar.readFile('AStarObligGraf.txt')
+#startVertexName, targetVertexName, removed = astar.readLimitations('AStarObligGraf_xtras.txt')
 
 #astar.Dijkstra(startVertexName,targetVertexName)
 astar.AStarSearch(startVertexName, targetVertexName)
