@@ -235,97 +235,60 @@ class AStar(Graph):
         return self.getPath(startVertexName, targetVertexName) 
 
     def AStarSearch(self, startVertexName = None, targetVertexName = None):
-        
-        def calc_h(node):
-            distance = abs(node.position()[0]-end_node.position()[0]) + abs(node.position()[1]-end_node.position()[1])
-            return distance
-
-        def reconstruct_path(came_from,current):
-            total_path = []
-            while current in list(came_from.items())[0]:
-                current = came_from[current]
-                total_path.append(current)
-            return total_path
-        
-        
         self.initPygame()
-        
-        open_list = []
-        closed_list = []
 
-        path = []
-
-        start_node = self.vertecies[startVertexName]
+        start_node = self.vertecies[startVertexName] # Initialize starting nodes
         end_node = self.vertecies[targetVertexName]
 
-        open_list.append(start_node)
-        winner_index = 0
+        open_list = [start_node]
+
         self.pygameState(start_node,self.BLUE)
         self.pygameState(end_node,self.RED)
-        
-        while open_list:
+
+        while open_list: # The whole algorithm is done within this while loop
             current_node = open_list[0]
-            self.pygameState(current_node, self.GREEN)
-            
-
+            self.pygameState(current_node,self.GREEN)
             for i in open_list:
-                if i.f < current_node.f:
+                if i.f < current_node.f: # Smallest f is the best f
                     current_node = i
-
             
-            
-            
-            for i in open_list:
-                if i == current_node:
-                    current_node.known = True
-                    open_list.remove(i)
+            current_node.known = True
+            open_list.remove(current_node)
 
             if current_node == end_node:
-                break
-            #DONE
-            
+                break # We're done when we have reached our final destination
+
             for neighbor in current_node.adjecent:
                 if neighbor.vertex.known:
-                    continue
+                    continue # No need in checking current neighbor if it has already been checked
 
                 self.pygameState(neighbor.vertex,self.PINK)
-
-                temp_g = current_node.g + 1
-
-                #for i in open_list:
-                #    if neighbor.vertex == i and temp_g < neighbor.vertex.g:
-                #        neighbor.vertex.g = temp_g
                 
-                #Setting vertex settings
-                
-                neighbor.vertex.h = self.heuristics(neighbor.vertex.name, targetVertexName)
-                neighbor.vertex.f = neighbor.vertex.g + neighbor.vertex.h 
-                neighbor.vertex.previous = current_node
+                neighbor.vertex.g = current_node.g + 1# Should use neighbor.vertex.g instead of 1, if weight is changing
+
+                neighbor.vertex.h = self.heuristics(neighbor.vertex.name,targetVertexName) # Setting the heuristic value
+                neighbor.vertex.f = neighbor.vertex.g + neighbor.vertex.h # f(n) = g(n) + h(n) equation
+                neighbor.vertex.previous = current_node # Keeping track of previous nodes
                 neighbor.vertex.known = True
-                open_list.append(neighbor.vertex)
 
-                
+                open_list.append(neighbor.vertex)   
 
-                    #came_from[neighbor.vertex] = current_node
-                    #neighbor.g = temp_g
-                    #neighbor.f = temp_g + calc_h(neighbor.vertex)
-                    #if neighbor.vertex not in open_list:
-                    #    open_list.append(neighbor.vertex)
             self.pygameState(current_node,self.LIGHTGREY)
+
         for n in self.getPath(startVertexName, targetVertexName):
             self.pygameState(n,self.DARKGREEN)
         return self.getPath(startVertexName, targetVertexName) 
-
+   
 astar = AStar(delay = 0, visual = True)
 
 #astar.readFile('minigraf.txt')
 #startVertexName, targetVertexName, removed = astar.readLimitations('minigraf_xtras.txt')
 #astar.readFile('astjernegraf.txt')
 #startVertexName, targetVertexName, removed = astar.readLimitations('xtras.txt')
-#astar.readFile('biggraph.txt')
-#startVertexName, targetVertexName, removed = astar.readLimitations('biggraph_xtras.txt')
-astar.readFile('AStarObligGraf.txt')
-startVertexName, targetVertexName, removed = astar.readLimitations('AStarObligGraf_xtras.txt')
+astar.readFile('biggraph.txt')
+startVertexName, targetVertexName, removed = astar.readLimitations('biggraph_xtras.txt')
+#astar.readFile('AStarObligGraf.txt')
+#startVertexName, targetVertexName, removed = astar.readLimitations('AStarObligGraf_xtras.txt')
 
 #astar.Dijkstra(startVertexName,targetVertexName)
 astar.AStarSearch(startVertexName, targetVertexName)
@@ -338,5 +301,3 @@ if astar.pygame:
                 pg.quit()
 else:
     print(astar.getPathAsString(startVertexName, targetVertexName))
-
-
